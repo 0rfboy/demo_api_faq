@@ -1,0 +1,457 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>API Test Report</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+.container { max-width: 1400px; margin: 0 auto; background: white; padding: 20px; border-radius: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+h1 { color: #333; margin-bottom: 20px; }
+.info { background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+.info p { margin: 5px 0; }
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+th, td { border: 1px solid #ddd; padding: 10px; text-align: left; vertical-align: top; }
+th { background: #f0f0f0; font-weight: bold; }
+tr:nth-child(even) { background: #fafafa; }
+pre { background: #f4f4f4; padding: 8px; border-radius: 3px; overflow-x: auto; font-size: 12px; margin: 0; max-height: 150px; overflow-y: auto; }
+.status-pass { color: green; font-weight: bold; }
+.status-fail { color: red; font-weight: bold; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>API Test Report – Device Tags</h1>
+
+    <div class="info">
+        <p><strong>Дата:</strong> 2025-12-17 14:53:13</p>
+        <p><strong>Endpoint:</strong> https://api.demo.tn.uz/api/v1/device-tags</p>
+        <p><strong>Всего тестов:</strong> 16</p>
+        <p><strong>Пройдено:</strong> <span class="status-pass">11</span></p>
+        <p><strong>Провалено:</strong> <span class="status-fail">5</span></p>
+        <p><strong>Успешность:</strong> 68.8%</p>
+        <p><strong>Создано объектов:</strong> 2</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Название</th>
+                <th>Метод</th>
+                <th>Предусловия</th>
+                <th>Request Body</th>
+                <th>Ожидаемый код</th>
+                <th>Response Body</th>
+                <th>Фактический код</th>
+                <th>Статус</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td>post_001</td>
+                <td>Валидный</td>
+                <td><strong>POST</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+Корректный body</pre></td>
+                <td><pre>{
+  "color": "#c2be5b",
+  "name": {
+    "uz": "janob",
+    "ru": "Мистер",
+    "en": "Mr"
+  }
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "CREATED",
+  "data": {
+    "id": "8c219ae5-b263-4357-8326-ab3afc5e850c",
+    "name": {
+      "en": "Mr",
+      "ru": "Мистер",
+      "uz": "janob"
+    },
+    "color": "#c2be5b"
+  },
+  "success": true
+}</pre></td>
+                <td>201</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+            <tr>
+                <td>post_002</td>
+                <td>Невалидный color</td>
+                <td><strong>POST</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+Невалидный color</pre></td>
+                <td><pre>{
+  "color": "couple",
+  "name": {
+    "uz": "ehtimol",
+    "ru": "вероятно",
+    "en": "probably"
+  }
+}</pre></td>
+                <td>400</td>
+                <td><pre>{
+  "status": "CREATED",
+  "data": {
+    "id": "1894e18f-7344-46d7-b626-766636da96a1",
+    "name": {
+      "en": "probably",
+      "ru": "вероятно",
+      "uz": "ehtimol"
+    },
+    "color": "couple"
+  },
+  "success": true
+}</pre></td>
+                <td>201</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>post_003</td>
+                <td>name.en = true</td>
+                <td><strong>POST</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+name.en = true</pre></td>
+                <td><pre>{
+  "color": "#ead371",
+  "name": {
+    "en": true
+  }
+}</pre></td>
+                <td>400</td>
+                <td><pre>{
+  "status": "BAD_REQUEST",
+  "data": "json: cannot unmarshal bool into Go struct field CreateDeviceTagIn.name of type string",
+  "success": false
+}</pre></td>
+                <td>400</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+            <tr>
+                <td>post_004</td>
+                <td>Пустой body</td>
+                <td><strong>POST</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+Body отсутствует</pre></td>
+                <td><pre>—</pre></td>
+                <td>400</td>
+                <td><pre>{
+  "status": "BAD_REQUEST",
+  "data": "EOF",
+  "success": false
+}</pre></td>
+                <td>400</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+            <tr>
+                <td>put_001_id1</td>
+                <td>Валидный (ID: 8c219ae5...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 8c219ae5-b263-4357-8326-ab3afc5e850c, Корректный body</pre></td>
+                <td><pre>{
+  "color": "#e1b07c",
+  "name": {
+    "uz": "yotish",
+    "ru": "класть",
+    "en": "lay"
+  }
+}</pre></td>
+                <td>200</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "8c219ae5-b263-4357-8326-ab3afc5e850c",
+    "name": {
+      "en": "lay",
+      "ru": "класть",
+      "uz": "yotish"
+    },
+    "color": "#e1b07c"
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+            <tr>
+                <td>put_002_id1</td>
+                <td>Невалидный color (ID: 8c219ae5...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 8c219ae5-b263-4357-8326-ab3afc5e850c, Невалидный color</pre></td>
+                <td><pre>{
+  "color": "#ffcbf0",
+  "name": {
+    "uz": "haqiqatan ham",
+    "ru": "Действительно",
+    "en": "really"
+  }
+}</pre></td>
+                <td>400</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "8c219ae5-b263-4357-8326-ab3afc5e850c",
+    "name": {
+      "en": "really",
+      "ru": "Действительно",
+      "uz": "haqiqatan ham"
+    },
+    "color": "#ffcbf0"
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_003_id1</td>
+                <td>name.en = true (ID: 8c219ae5...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 8c219ae5-b263-4357-8326-ab3afc5e850c, name.en = true</pre></td>
+                <td><pre>{
+  "color": "#9f3b54",
+  "name": {
+    "uz": "tutmoq",
+    "ru": "ловить",
+    "en": "catch"
+  }
+}</pre></td>
+                <td>400</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "8c219ae5-b263-4357-8326-ab3afc5e850c",
+    "name": {
+      "en": "catch",
+      "ru": "ловить",
+      "uz": "tutmoq"
+    },
+    "color": "#9f3b54"
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_004_id1</td>
+                <td>Пустой body (ID: 8c219ae5...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 8c219ae5-b263-4357-8326-ab3afc5e850c, Body отсутствует</pre></td>
+                <td><pre>—</pre></td>
+                <td>400</td>
+                <td><pre>{
+  "status": "BAD_REQUEST",
+  "data": "EOF",
+  "success": false
+}</pre></td>
+                <td>400</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+            <tr>
+                <td>put_001_id2</td>
+                <td>Валидный (ID: 1894e18f...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 1894e18f-7344-46d7-b626-766636da96a1, Корректный body</pre></td>
+                <td><pre>{
+  "color": "#1f6172",
+  "name": {
+    "uz": "tadqiqot",
+    "ru": "исследовать",
+    "en": "research"
+  }
+}</pre></td>
+                <td>200</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "1894e18f-7344-46d7-b626-766636da96a1",
+    "name": {
+      "en": "research",
+      "ru": "исследовать",
+      "uz": "tadqiqot"
+    },
+    "color": "#1f6172"
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+            <tr>
+                <td>put_002_id2</td>
+                <td>Невалидный color (ID: 1894e18f...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 1894e18f-7344-46d7-b626-766636da96a1, Невалидный color</pre></td>
+                <td><pre>{
+  "color": "#cb49c1",
+  "name": {
+    "uz": "yozuvchi",
+    "ru": "писатель",
+    "en": "writer"
+  }
+}</pre></td>
+                <td>400</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "1894e18f-7344-46d7-b626-766636da96a1",
+    "name": {
+      "en": "writer",
+      "ru": "писатель",
+      "uz": "yozuvchi"
+    },
+    "color": "#cb49c1"
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_003_id2</td>
+                <td>name.en = true (ID: 1894e18f...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 1894e18f-7344-46d7-b626-766636da96a1, name.en = true</pre></td>
+                <td><pre>{
+  "color": "#23ea64",
+  "name": {
+    "uz": "agar",
+    "ru": "если",
+    "en": "if"
+  }
+}</pre></td>
+                <td>400</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "1894e18f-7344-46d7-b626-766636da96a1",
+    "name": {
+      "en": "if",
+      "ru": "если",
+      "uz": "agar"
+    },
+    "color": "#23ea64"
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_004_id2</td>
+                <td>Пустой body (ID: 1894e18f...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 1894e18f-7344-46d7-b626-766636da96a1, Body отсутствует</pre></td>
+                <td><pre>—</pre></td>
+                <td>400</td>
+                <td><pre>{
+  "status": "BAD_REQUEST",
+  "data": "EOF",
+  "success": false
+}</pre></td>
+                <td>400</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+            <tr>
+                <td>delete_001</td>
+                <td>DELETE объекта</td>
+                <td><strong>DELETE</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+Удаление ID: 8c219ae5-b263-4357-8326-ab3afc5e850c</pre></td>
+                <td><pre>—</pre></td>
+                <td>200</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "8c219ae5-b263-4357-8326-ab3afc5e850c"
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+            <tr>
+                <td>get_after_delete_001</td>
+                <td>GET после DELETE</td>
+                <td><strong>GET</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+Проверка удаления ID: 8c219ae5-b263-4357-8326-ab3afc5e850c</pre></td>
+                <td><pre>—</pre></td>
+                <td>404</td>
+                <td><pre>{
+  "status": "NOT_FOUND",
+  "data": "not found no rows in result set",
+  "success": false
+}</pre></td>
+                <td>404</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+            <tr>
+                <td>delete_002</td>
+                <td>DELETE объекта</td>
+                <td><strong>DELETE</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+Удаление ID: 1894e18f-7344-46d7-b626-766636da96a1</pre></td>
+                <td><pre>—</pre></td>
+                <td>200</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "1894e18f-7344-46d7-b626-766636da96a1"
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+            <tr>
+                <td>get_after_delete_002</td>
+                <td>GET после DELETE</td>
+                <td><strong>GET</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+Проверка удаления ID: 1894e18f-7344-46d7-b626-766636da96a1</pre></td>
+                <td><pre>—</pre></td>
+                <td>404</td>
+                <td><pre>{
+  "status": "NOT_FOUND",
+  "data": "not found no rows in result set",
+  "success": false
+}</pre></td>
+                <td>404</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
