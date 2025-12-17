@@ -24,13 +24,13 @@ pre { background: #f4f4f4; padding: 8px; border-radius: 3px; overflow-x: auto; f
     <h1>API Test Report – Device Tags</h1>
 
     <div class="info">
-        <p><strong>Дата:</strong> 2025-12-17 14:53:13</p>
-        <p><strong>Endpoint:</strong> https://api.demo.tn.uz/api/v1/device-tags</p>
-        <p><strong>Всего тестов:</strong> 16</p>
-        <p><strong>Пройдено:</strong> <span class="status-pass">11</span></p>
-        <p><strong>Провалено:</strong> <span class="status-fail">5</span></p>
-        <p><strong>Успешность:</strong> 68.8%</p>
-        <p><strong>Создано объектов:</strong> 2</p>
+        <p><strong>Дата:</strong> 2025-12-17 15:23:22</p>
+        <p><strong>Endpoint:</strong> https://api.demo.tn.uz/api/v1/faqs</p>
+        <p><strong>Всего тестов:</strong> 58</p>
+        <p><strong>Пройдено:</strong> <span class="status-pass">23</span></p>
+        <p><strong>Провалено:</strong> <span class="status-fail">35</span></p>
+        <p><strong>Успешность:</strong> 39.7%</p>
+        <p><strong>Создано объектов:</strong> 5</p>
     </div>
 
     <table>
@@ -53,27 +53,37 @@ pre { background: #f4f4f4; padding: 8px; border-radius: 3px; overflow-x: auto; f
                 <td>post_001</td>
                 <td>Валидный</td>
                 <td><strong>POST</strong></td>
-                <td><pre>Headers: Content-Type=application/json
-Корректный body</pre></td>
+                <td><pre>Headers: Content-Type=application/json</pre></td>
                 <td><pre>{
-  "color": "#c2be5b",
-  "name": {
-    "uz": "janob",
-    "ru": "Мистер",
-    "en": "Mr"
-  }
+  "question": {
+    "uz": "xabar",
+    "ru": "сообщение",
+    "en": "message"
+  },
+  "answer": {
+    "uz": "kollej",
+    "ru": "колледж",
+    "en": "college"
+  },
+  "position": 41
 }</pre></td>
                 <td>201</td>
                 <td><pre>{
   "status": "CREATED",
   "data": {
-    "id": "8c219ae5-b263-4357-8326-ab3afc5e850c",
-    "name": {
-      "en": "Mr",
-      "ru": "Мистер",
-      "uz": "janob"
+    "id": "546bbfac-d359-472b-8caf-61ec704f0918",
+    "question": {
+      "en": "message",
+      "ru": "сообщение",
+      "uz": "xabar"
     },
-    "color": "#c2be5b"
+    "answer": {
+      "en": "college",
+      "ru": "колледж",
+      "uz": "kollej"
+    },
+    "position": 41,
+    "isActive": false
   },
   "success": true
 }</pre></td>
@@ -83,52 +93,56 @@ pre { background: #f4f4f4; padding: 8px; border-radius: 3px; overflow-x: auto; f
 
             <tr>
                 <td>post_002</td>
-                <td>Невалидный color</td>
+                <td>additionalPropga true yoki false yuborish</td>
                 <td><strong>POST</strong></td>
                 <td><pre>Headers: Content-Type=application/json
-Невалидный color</pre></td>
+question.en = true</pre></td>
                 <td><pre>{
-  "color": "couple",
-  "name": {
-    "uz": "ehtimol",
-    "ru": "вероятно",
-    "en": "probably"
-  }
-}</pre></td>
-                <td>400</td>
-                <td><pre>{
-  "status": "CREATED",
-  "data": {
-    "id": "1894e18f-7344-46d7-b626-766636da96a1",
-    "name": {
-      "en": "probably",
-      "ru": "вероятно",
-      "uz": "ehtimol"
-    },
-    "color": "couple"
+  "question": {
+    "en": true,
+    "uz": "haqiqat",
+    "ru": "специфический"
   },
-  "success": true
-}</pre></td>
-                <td>201</td>
-                <td class="status-fail">FAIL</td>
-            </tr>
-
-            <tr>
-                <td>post_003</td>
-                <td>name.en = true</td>
-                <td><strong>POST</strong></td>
-                <td><pre>Headers: Content-Type=application/json
-name.en = true</pre></td>
-                <td><pre>{
-  "color": "#ead371",
-  "name": {
-    "en": true
-  }
+  "answer": {
+    "uz": "o'simlik",
+    "ru": "растение",
+    "en": "plant"
+  },
+  "position": 49
 }</pre></td>
                 <td>400</td>
                 <td><pre>{
   "status": "BAD_REQUEST",
-  "data": "json: cannot unmarshal bool into Go struct field CreateDeviceTagIn.name of type string",
+  "data": "json: cannot unmarshal bool into Go struct field CreateFAQIn.question of type string",
+  "success": false
+}</pre></td>
+                <td>400</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+            <tr>
+                <td>post_003</td>
+                <td>position ga harf yozish</td>
+                <td><strong>POST</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+position = 'first'</pre></td>
+                <td><pre>{
+  "question": {
+    "uz": "havo",
+    "ru": "воздух",
+    "en": "air"
+  },
+  "answer": {
+    "uz": "qiziqish",
+    "ru": "интерес",
+    "en": "interest"
+  },
+  "position": "first"
+}</pre></td>
+                <td>400</td>
+                <td><pre>{
+  "status": "BAD_REQUEST",
+  "data": "json: cannot unmarshal string into Go struct field CreateFAQIn.position of type int64",
   "success": false
 }</pre></td>
                 <td>400</td>
@@ -153,62 +167,199 @@ Body отсутствует</pre></td>
             </tr>
 
             <tr>
-                <td>put_001_id1</td>
-                <td>Валидный (ID: 8c219ae5...)</td>
-                <td><strong>PUT</strong></td>
-                <td><pre>Headers: Content-Type=application/json
-ID: 8c219ae5-b263-4357-8326-ab3afc5e850c, Корректный body</pre></td>
+                <td>post_005</td>
+                <td>answer siz yuborish</td>
+                <td><strong>POST</strong></td>
+                <td><pre>Headers: Content-Type=application/json</pre></td>
                 <td><pre>{
-  "color": "#e1b07c",
-  "name": {
-    "uz": "yotish",
-    "ru": "класть",
-    "en": "lay"
-  }
+  "question": {
+    "uz": "e'tibor",
+    "ru": "внимание",
+    "en": "attention"
+  },
+  "position": 40
 }</pre></td>
-                <td>200</td>
+                <td>201</td>
                 <td><pre>{
-  "status": "OK",
+  "status": "CREATED",
   "data": {
-    "id": "8c219ae5-b263-4357-8326-ab3afc5e850c",
-    "name": {
-      "en": "lay",
-      "ru": "класть",
-      "uz": "yotish"
+    "id": "d532859c-06e8-4776-9ea8-960f6f2e7575",
+    "question": {
+      "en": "attention",
+      "ru": "внимание",
+      "uz": "e'tibor"
     },
-    "color": "#e1b07c"
+    "answer": null,
+    "position": 40,
+    "isActive": false
   },
   "success": true
 }</pre></td>
-                <td>200</td>
+                <td>201</td>
                 <td class="status-pass">PASS</td>
             </tr>
 
             <tr>
-                <td>put_002_id1</td>
-                <td>Невалидный color (ID: 8c219ae5...)</td>
+                <td>post_006</td>
+                <td>question siz</td>
+                <td><strong>POST</strong></td>
+                <td><pre>Headers: Content-Type=application/json</pre></td>
+                <td><pre>{
+  "answer": {
+    "uz": "mavsum",
+    "ru": "сезон",
+    "en": "season"
+  },
+  "position": 73
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "CREATED",
+  "data": {
+    "id": "2588c166-b2bd-487c-ac6e-f5bbbe68f22d",
+    "question": null,
+    "answer": {
+      "en": "season",
+      "ru": "сезон",
+      "uz": "mavsum"
+    },
+    "position": 73,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>201</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+            <tr>
+                <td>post_007</td>
+                <td>Валидный</td>
+                <td><strong>POST</strong></td>
+                <td><pre>Headers: Content-Type=application/json</pre></td>
+                <td><pre>{
+  "question": {
+    "uz": "ta'minlash",
+    "ru": "предоставлять",
+    "en": "provide"
+  },
+  "answer": {
+    "uz": "diniy",
+    "ru": "религиозный",
+    "en": "religious"
+  },
+  "position": 69
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "CREATED",
+  "data": {
+    "id": "dc9ff2b3-a595-4eb7-85e8-4cc26a30933e",
+    "question": {
+      "en": "provide",
+      "ru": "предоставлять",
+      "uz": "ta'minlash"
+    },
+    "answer": {
+      "en": "religious",
+      "ru": "религиозный",
+      "uz": "diniy"
+    },
+    "position": 69,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>201</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+            <tr>
+                <td>post_008</td>
+                <td>position siz</td>
+                <td><strong>POST</strong></td>
+                <td><pre>Headers: Content-Type=application/json</pre></td>
+                <td><pre>{
+  "question": {
+    "uz": "ko'p",
+    "ru": "много",
+    "en": "lot"
+  },
+  "answer": {
+    "uz": "madaniyat",
+    "ru": "культура",
+    "en": "culture"
+  }
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "CREATED",
+  "data": {
+    "id": "885af5d9-96b8-42d1-b9fd-104aae94133d",
+    "question": {
+      "en": "lot",
+      "ru": "много",
+      "uz": "ko'p"
+    },
+    "answer": {
+      "en": "culture",
+      "ru": "культура",
+      "uz": "madaniyat"
+    },
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>201</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+            <tr>
+                <td>put_001_id1</td>
+                <td>Валидный (ID: 546bbfac...)</td>
                 <td><strong>PUT</strong></td>
                 <td><pre>Headers: Content-Type=application/json
-ID: 8c219ae5-b263-4357-8326-ab3afc5e850c, Невалидный color</pre></td>
+ID: 546bbfac-d359-472b-8caf-61ec704f0918, </pre></td>
                 <td><pre>{
-  "color": "#ffcbf0",
-  "name": {
-    "uz": "haqiqatan ham",
-    "ru": "Действительно",
-    "en": "really"
-  }
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "546bbfac-d359-472b-8caf-61ec704f0918",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_002_id1</td>
+                <td>additionalPropga true yoki false yuborish (ID: 546bbfac...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 546bbfac-d359-472b-8caf-61ec704f0918, question.en = true</pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
 }</pre></td>
                 <td>400</td>
                 <td><pre>{
   "status": "OK",
   "data": {
-    "id": "8c219ae5-b263-4357-8326-ab3afc5e850c",
-    "name": {
-      "en": "really",
-      "ru": "Действительно",
-      "uz": "haqiqatan ham"
-    },
-    "color": "#ffcbf0"
+    "id": "546bbfac-d359-472b-8caf-61ec704f0918",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
   },
   "success": true
 }</pre></td>
@@ -218,29 +369,23 @@ ID: 8c219ae5-b263-4357-8326-ab3afc5e850c, Невалидный color</pre></td>
 
             <tr>
                 <td>put_003_id1</td>
-                <td>name.en = true (ID: 8c219ae5...)</td>
+                <td>position ga harf yozish (ID: 546bbfac...)</td>
                 <td><strong>PUT</strong></td>
                 <td><pre>Headers: Content-Type=application/json
-ID: 8c219ae5-b263-4357-8326-ab3afc5e850c, name.en = true</pre></td>
+ID: 546bbfac-d359-472b-8caf-61ec704f0918, position = 'first'</pre></td>
                 <td><pre>{
-  "color": "#9f3b54",
-  "name": {
-    "uz": "tutmoq",
-    "ru": "ловить",
-    "en": "catch"
-  }
+  "color": null,
+  "name": null
 }</pre></td>
                 <td>400</td>
                 <td><pre>{
   "status": "OK",
   "data": {
-    "id": "8c219ae5-b263-4357-8326-ab3afc5e850c",
-    "name": {
-      "en": "catch",
-      "ru": "ловить",
-      "uz": "tutmoq"
-    },
-    "color": "#9f3b54"
+    "id": "546bbfac-d359-472b-8caf-61ec704f0918",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
   },
   "success": true
 }</pre></td>
@@ -250,10 +395,10 @@ ID: 8c219ae5-b263-4357-8326-ab3afc5e850c, name.en = true</pre></td>
 
             <tr>
                 <td>put_004_id1</td>
-                <td>Пустой body (ID: 8c219ae5...)</td>
+                <td>Пустой body (ID: 546bbfac...)</td>
                 <td><strong>PUT</strong></td>
                 <td><pre>Headers: Content-Type=application/json
-ID: 8c219ae5-b263-4357-8326-ab3afc5e850c, Body отсутствует</pre></td>
+ID: 546bbfac-d359-472b-8caf-61ec704f0918, Body отсутствует</pre></td>
                 <td><pre>—</pre></td>
                 <td>400</td>
                 <td><pre>{
@@ -266,62 +411,154 @@ ID: 8c219ae5-b263-4357-8326-ab3afc5e850c, Body отсутствует</pre></td>
             </tr>
 
             <tr>
-                <td>put_001_id2</td>
-                <td>Валидный (ID: 1894e18f...)</td>
+                <td>put_005_id1</td>
+                <td>answer siz yuborish (ID: 546bbfac...)</td>
                 <td><strong>PUT</strong></td>
                 <td><pre>Headers: Content-Type=application/json
-ID: 1894e18f-7344-46d7-b626-766636da96a1, Корректный body</pre></td>
+ID: 546bbfac-d359-472b-8caf-61ec704f0918, </pre></td>
                 <td><pre>{
-  "color": "#1f6172",
-  "name": {
-    "uz": "tadqiqot",
-    "ru": "исследовать",
-    "en": "research"
-  }
+  "color": null,
+  "name": null
 }</pre></td>
-                <td>200</td>
+                <td>201</td>
                 <td><pre>{
   "status": "OK",
   "data": {
-    "id": "1894e18f-7344-46d7-b626-766636da96a1",
-    "name": {
-      "en": "research",
-      "ru": "исследовать",
-      "uz": "tadqiqot"
-    },
-    "color": "#1f6172"
+    "id": "546bbfac-d359-472b-8caf-61ec704f0918",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
   },
   "success": true
 }</pre></td>
                 <td>200</td>
-                <td class="status-pass">PASS</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_006_id1</td>
+                <td>question siz (ID: 546bbfac...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 546bbfac-d359-472b-8caf-61ec704f0918, </pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "546bbfac-d359-472b-8caf-61ec704f0918",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_007_id1</td>
+                <td>Валидный (ID: 546bbfac...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 546bbfac-d359-472b-8caf-61ec704f0918, </pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "546bbfac-d359-472b-8caf-61ec704f0918",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_008_id1</td>
+                <td>position siz (ID: 546bbfac...)</td>
+                <td><strong>PuT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 546bbfac-d359-472b-8caf-61ec704f0918, </pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "546bbfac-d359-472b-8caf-61ec704f0918",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_001_id2</td>
+                <td>Валидный (ID: d532859c...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: d532859c-06e8-4776-9ea8-960f6f2e7575, </pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "d532859c-06e8-4776-9ea8-960f6f2e7575",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
             </tr>
 
             <tr>
                 <td>put_002_id2</td>
-                <td>Невалидный color (ID: 1894e18f...)</td>
+                <td>additionalPropga true yoki false yuborish (ID: d532859c...)</td>
                 <td><strong>PUT</strong></td>
                 <td><pre>Headers: Content-Type=application/json
-ID: 1894e18f-7344-46d7-b626-766636da96a1, Невалидный color</pre></td>
+ID: d532859c-06e8-4776-9ea8-960f6f2e7575, question.en = true</pre></td>
                 <td><pre>{
-  "color": "#cb49c1",
-  "name": {
-    "uz": "yozuvchi",
-    "ru": "писатель",
-    "en": "writer"
-  }
+  "color": null,
+  "name": null
 }</pre></td>
                 <td>400</td>
                 <td><pre>{
   "status": "OK",
   "data": {
-    "id": "1894e18f-7344-46d7-b626-766636da96a1",
-    "name": {
-      "en": "writer",
-      "ru": "писатель",
-      "uz": "yozuvchi"
-    },
-    "color": "#cb49c1"
+    "id": "d532859c-06e8-4776-9ea8-960f6f2e7575",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
   },
   "success": true
 }</pre></td>
@@ -331,29 +568,23 @@ ID: 1894e18f-7344-46d7-b626-766636da96a1, Невалидный color</pre></td>
 
             <tr>
                 <td>put_003_id2</td>
-                <td>name.en = true (ID: 1894e18f...)</td>
+                <td>position ga harf yozish (ID: d532859c...)</td>
                 <td><strong>PUT</strong></td>
                 <td><pre>Headers: Content-Type=application/json
-ID: 1894e18f-7344-46d7-b626-766636da96a1, name.en = true</pre></td>
+ID: d532859c-06e8-4776-9ea8-960f6f2e7575, position = 'first'</pre></td>
                 <td><pre>{
-  "color": "#23ea64",
-  "name": {
-    "uz": "agar",
-    "ru": "если",
-    "en": "if"
-  }
+  "color": null,
+  "name": null
 }</pre></td>
                 <td>400</td>
                 <td><pre>{
   "status": "OK",
   "data": {
-    "id": "1894e18f-7344-46d7-b626-766636da96a1",
-    "name": {
-      "en": "if",
-      "ru": "если",
-      "uz": "agar"
-    },
-    "color": "#23ea64"
+    "id": "d532859c-06e8-4776-9ea8-960f6f2e7575",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
   },
   "success": true
 }</pre></td>
@@ -363,10 +594,10 @@ ID: 1894e18f-7344-46d7-b626-766636da96a1, name.en = true</pre></td>
 
             <tr>
                 <td>put_004_id2</td>
-                <td>Пустой body (ID: 1894e18f...)</td>
+                <td>Пустой body (ID: d532859c...)</td>
                 <td><strong>PUT</strong></td>
                 <td><pre>Headers: Content-Type=application/json
-ID: 1894e18f-7344-46d7-b626-766636da96a1, Body отсутствует</pre></td>
+ID: d532859c-06e8-4776-9ea8-960f6f2e7575, Body отсутствует</pre></td>
                 <td><pre>—</pre></td>
                 <td>400</td>
                 <td><pre>{
@@ -379,17 +610,718 @@ ID: 1894e18f-7344-46d7-b626-766636da96a1, Body отсутствует</pre></td>
             </tr>
 
             <tr>
+                <td>put_005_id2</td>
+                <td>answer siz yuborish (ID: d532859c...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: d532859c-06e8-4776-9ea8-960f6f2e7575, </pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "d532859c-06e8-4776-9ea8-960f6f2e7575",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_006_id2</td>
+                <td>question siz (ID: d532859c...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: d532859c-06e8-4776-9ea8-960f6f2e7575, </pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "d532859c-06e8-4776-9ea8-960f6f2e7575",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_007_id2</td>
+                <td>Валидный (ID: d532859c...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: d532859c-06e8-4776-9ea8-960f6f2e7575, </pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "d532859c-06e8-4776-9ea8-960f6f2e7575",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_008_id2</td>
+                <td>position siz (ID: d532859c...)</td>
+                <td><strong>PuT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: d532859c-06e8-4776-9ea8-960f6f2e7575, </pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "d532859c-06e8-4776-9ea8-960f6f2e7575",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_001_id3</td>
+                <td>Валидный (ID: 2588c166...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 2588c166-b2bd-487c-ac6e-f5bbbe68f22d, </pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "2588c166-b2bd-487c-ac6e-f5bbbe68f22d",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_002_id3</td>
+                <td>additionalPropga true yoki false yuborish (ID: 2588c166...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 2588c166-b2bd-487c-ac6e-f5bbbe68f22d, question.en = true</pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>400</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "2588c166-b2bd-487c-ac6e-f5bbbe68f22d",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_003_id3</td>
+                <td>position ga harf yozish (ID: 2588c166...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 2588c166-b2bd-487c-ac6e-f5bbbe68f22d, position = 'first'</pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>400</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "2588c166-b2bd-487c-ac6e-f5bbbe68f22d",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_004_id3</td>
+                <td>Пустой body (ID: 2588c166...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 2588c166-b2bd-487c-ac6e-f5bbbe68f22d, Body отсутствует</pre></td>
+                <td><pre>—</pre></td>
+                <td>400</td>
+                <td><pre>{
+  "status": "BAD_REQUEST",
+  "data": "EOF",
+  "success": false
+}</pre></td>
+                <td>400</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+            <tr>
+                <td>put_005_id3</td>
+                <td>answer siz yuborish (ID: 2588c166...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 2588c166-b2bd-487c-ac6e-f5bbbe68f22d, </pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "2588c166-b2bd-487c-ac6e-f5bbbe68f22d",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_006_id3</td>
+                <td>question siz (ID: 2588c166...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 2588c166-b2bd-487c-ac6e-f5bbbe68f22d, </pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "2588c166-b2bd-487c-ac6e-f5bbbe68f22d",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_007_id3</td>
+                <td>Валидный (ID: 2588c166...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 2588c166-b2bd-487c-ac6e-f5bbbe68f22d, </pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "2588c166-b2bd-487c-ac6e-f5bbbe68f22d",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_008_id3</td>
+                <td>position siz (ID: 2588c166...)</td>
+                <td><strong>PuT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 2588c166-b2bd-487c-ac6e-f5bbbe68f22d, </pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "2588c166-b2bd-487c-ac6e-f5bbbe68f22d",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_001_id4</td>
+                <td>Валидный (ID: dc9ff2b3...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: dc9ff2b3-a595-4eb7-85e8-4cc26a30933e, </pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "dc9ff2b3-a595-4eb7-85e8-4cc26a30933e",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_002_id4</td>
+                <td>additionalPropga true yoki false yuborish (ID: dc9ff2b3...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: dc9ff2b3-a595-4eb7-85e8-4cc26a30933e, question.en = true</pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>400</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "dc9ff2b3-a595-4eb7-85e8-4cc26a30933e",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_003_id4</td>
+                <td>position ga harf yozish (ID: dc9ff2b3...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: dc9ff2b3-a595-4eb7-85e8-4cc26a30933e, position = 'first'</pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>400</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "dc9ff2b3-a595-4eb7-85e8-4cc26a30933e",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_004_id4</td>
+                <td>Пустой body (ID: dc9ff2b3...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: dc9ff2b3-a595-4eb7-85e8-4cc26a30933e, Body отсутствует</pre></td>
+                <td><pre>—</pre></td>
+                <td>400</td>
+                <td><pre>{
+  "status": "BAD_REQUEST",
+  "data": "EOF",
+  "success": false
+}</pre></td>
+                <td>400</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+            <tr>
+                <td>put_005_id4</td>
+                <td>answer siz yuborish (ID: dc9ff2b3...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: dc9ff2b3-a595-4eb7-85e8-4cc26a30933e, </pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "dc9ff2b3-a595-4eb7-85e8-4cc26a30933e",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_006_id4</td>
+                <td>question siz (ID: dc9ff2b3...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: dc9ff2b3-a595-4eb7-85e8-4cc26a30933e, </pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "dc9ff2b3-a595-4eb7-85e8-4cc26a30933e",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_007_id4</td>
+                <td>Валидный (ID: dc9ff2b3...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: dc9ff2b3-a595-4eb7-85e8-4cc26a30933e, </pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "dc9ff2b3-a595-4eb7-85e8-4cc26a30933e",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_008_id4</td>
+                <td>position siz (ID: dc9ff2b3...)</td>
+                <td><strong>PuT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: dc9ff2b3-a595-4eb7-85e8-4cc26a30933e, </pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "dc9ff2b3-a595-4eb7-85e8-4cc26a30933e",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_001_id5</td>
+                <td>Валидный (ID: 885af5d9...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 885af5d9-96b8-42d1-b9fd-104aae94133d, </pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "885af5d9-96b8-42d1-b9fd-104aae94133d",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_002_id5</td>
+                <td>additionalPropga true yoki false yuborish (ID: 885af5d9...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 885af5d9-96b8-42d1-b9fd-104aae94133d, question.en = true</pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>400</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "885af5d9-96b8-42d1-b9fd-104aae94133d",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_003_id5</td>
+                <td>position ga harf yozish (ID: 885af5d9...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 885af5d9-96b8-42d1-b9fd-104aae94133d, position = 'first'</pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>400</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "885af5d9-96b8-42d1-b9fd-104aae94133d",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_004_id5</td>
+                <td>Пустой body (ID: 885af5d9...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 885af5d9-96b8-42d1-b9fd-104aae94133d, Body отсутствует</pre></td>
+                <td><pre>—</pre></td>
+                <td>400</td>
+                <td><pre>{
+  "status": "BAD_REQUEST",
+  "data": "EOF",
+  "success": false
+}</pre></td>
+                <td>400</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+            <tr>
+                <td>put_005_id5</td>
+                <td>answer siz yuborish (ID: 885af5d9...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 885af5d9-96b8-42d1-b9fd-104aae94133d, </pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "885af5d9-96b8-42d1-b9fd-104aae94133d",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_006_id5</td>
+                <td>question siz (ID: 885af5d9...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 885af5d9-96b8-42d1-b9fd-104aae94133d, </pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "885af5d9-96b8-42d1-b9fd-104aae94133d",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_007_id5</td>
+                <td>Валидный (ID: 885af5d9...)</td>
+                <td><strong>PUT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 885af5d9-96b8-42d1-b9fd-104aae94133d, </pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "885af5d9-96b8-42d1-b9fd-104aae94133d",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
+                <td>put_008_id5</td>
+                <td>position siz (ID: 885af5d9...)</td>
+                <td><strong>PuT</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+ID: 885af5d9-96b8-42d1-b9fd-104aae94133d, </pre></td>
+                <td><pre>{
+  "color": null,
+  "name": null
+}</pre></td>
+                <td>201</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "885af5d9-96b8-42d1-b9fd-104aae94133d",
+    "question": null,
+    "answer": null,
+    "position": 0,
+    "isActive": false
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-fail">FAIL</td>
+            </tr>
+
+            <tr>
                 <td>delete_001</td>
                 <td>DELETE объекта</td>
                 <td><strong>DELETE</strong></td>
                 <td><pre>Headers: Content-Type=application/json
-Удаление ID: 8c219ae5-b263-4357-8326-ab3afc5e850c</pre></td>
+Удаление ID: 546bbfac-d359-472b-8caf-61ec704f0918</pre></td>
                 <td><pre>—</pre></td>
                 <td>200</td>
                 <td><pre>{
   "status": "OK",
   "data": {
-    "id": "8c219ae5-b263-4357-8326-ab3afc5e850c"
+    "id": "546bbfac-d359-472b-8caf-61ec704f0918"
   },
   "success": true
 }</pre></td>
@@ -402,7 +1334,7 @@ ID: 1894e18f-7344-46d7-b626-766636da96a1, Body отсутствует</pre></td>
                 <td>GET после DELETE</td>
                 <td><strong>GET</strong></td>
                 <td><pre>Headers: Content-Type=application/json
-Проверка удаления ID: 8c219ae5-b263-4357-8326-ab3afc5e850c</pre></td>
+Проверка удаления ID: 546bbfac-d359-472b-8caf-61ec704f0918</pre></td>
                 <td><pre>—</pre></td>
                 <td>404</td>
                 <td><pre>{
@@ -419,13 +1351,13 @@ ID: 1894e18f-7344-46d7-b626-766636da96a1, Body отсутствует</pre></td>
                 <td>DELETE объекта</td>
                 <td><strong>DELETE</strong></td>
                 <td><pre>Headers: Content-Type=application/json
-Удаление ID: 1894e18f-7344-46d7-b626-766636da96a1</pre></td>
+Удаление ID: d532859c-06e8-4776-9ea8-960f6f2e7575</pre></td>
                 <td><pre>—</pre></td>
                 <td>200</td>
                 <td><pre>{
   "status": "OK",
   "data": {
-    "id": "1894e18f-7344-46d7-b626-766636da96a1"
+    "id": "d532859c-06e8-4776-9ea8-960f6f2e7575"
   },
   "success": true
 }</pre></td>
@@ -438,7 +1370,115 @@ ID: 1894e18f-7344-46d7-b626-766636da96a1, Body отсутствует</pre></td>
                 <td>GET после DELETE</td>
                 <td><strong>GET</strong></td>
                 <td><pre>Headers: Content-Type=application/json
-Проверка удаления ID: 1894e18f-7344-46d7-b626-766636da96a1</pre></td>
+Проверка удаления ID: d532859c-06e8-4776-9ea8-960f6f2e7575</pre></td>
+                <td><pre>—</pre></td>
+                <td>404</td>
+                <td><pre>{
+  "status": "NOT_FOUND",
+  "data": "not found no rows in result set",
+  "success": false
+}</pre></td>
+                <td>404</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+            <tr>
+                <td>delete_003</td>
+                <td>DELETE объекта</td>
+                <td><strong>DELETE</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+Удаление ID: 2588c166-b2bd-487c-ac6e-f5bbbe68f22d</pre></td>
+                <td><pre>—</pre></td>
+                <td>200</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "2588c166-b2bd-487c-ac6e-f5bbbe68f22d"
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+            <tr>
+                <td>get_after_delete_003</td>
+                <td>GET после DELETE</td>
+                <td><strong>GET</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+Проверка удаления ID: 2588c166-b2bd-487c-ac6e-f5bbbe68f22d</pre></td>
+                <td><pre>—</pre></td>
+                <td>404</td>
+                <td><pre>{
+  "status": "NOT_FOUND",
+  "data": "not found no rows in result set",
+  "success": false
+}</pre></td>
+                <td>404</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+            <tr>
+                <td>delete_004</td>
+                <td>DELETE объекта</td>
+                <td><strong>DELETE</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+Удаление ID: dc9ff2b3-a595-4eb7-85e8-4cc26a30933e</pre></td>
+                <td><pre>—</pre></td>
+                <td>200</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "dc9ff2b3-a595-4eb7-85e8-4cc26a30933e"
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+            <tr>
+                <td>get_after_delete_004</td>
+                <td>GET после DELETE</td>
+                <td><strong>GET</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+Проверка удаления ID: dc9ff2b3-a595-4eb7-85e8-4cc26a30933e</pre></td>
+                <td><pre>—</pre></td>
+                <td>404</td>
+                <td><pre>{
+  "status": "NOT_FOUND",
+  "data": "not found no rows in result set",
+  "success": false
+}</pre></td>
+                <td>404</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+            <tr>
+                <td>delete_005</td>
+                <td>DELETE объекта</td>
+                <td><strong>DELETE</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+Удаление ID: 885af5d9-96b8-42d1-b9fd-104aae94133d</pre></td>
+                <td><pre>—</pre></td>
+                <td>200</td>
+                <td><pre>{
+  "status": "OK",
+  "data": {
+    "id": "885af5d9-96b8-42d1-b9fd-104aae94133d"
+  },
+  "success": true
+}</pre></td>
+                <td>200</td>
+                <td class="status-pass">PASS</td>
+            </tr>
+
+            <tr>
+                <td>get_after_delete_005</td>
+                <td>GET после DELETE</td>
+                <td><strong>GET</strong></td>
+                <td><pre>Headers: Content-Type=application/json
+Проверка удаления ID: 885af5d9-96b8-42d1-b9fd-104aae94133d</pre></td>
                 <td><pre>—</pre></td>
                 <td>404</td>
                 <td><pre>{
